@@ -3,6 +3,9 @@ package gr.hua.dit.Adoption.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "users",
         uniqueConstraints = {
@@ -28,6 +31,12 @@ public class User {
 
     @NotBlank
     private String address;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
     public User() {
     }
@@ -87,6 +96,9 @@ public class User {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public Set<Role> getRoles() {return roles;}
+    public void setRoles(Set<Role> roles) {this.roles = roles;}
 
     @Override
     public String toString() {

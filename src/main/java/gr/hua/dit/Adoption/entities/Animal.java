@@ -3,7 +3,7 @@ package gr.hua.dit.Adoption.entities;
 import jakarta.persistence.*;
 
 @Entity
-@Table
+@Table(name = "animal")
 public class Animal {
 
     @Id
@@ -25,6 +25,16 @@ public class Animal {
 
     @Column(name = "description")
     private String description;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name = "shelter_id")
+    private Shelter shelter;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name = "adopter_id")
+    private Adopter adopter;
 
     public Animal() {}
     public Animal(String name, String gender, int age, String species, String description) {
