@@ -3,6 +3,7 @@ package gr.hua.dit.Adoption.entities;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "shelter")
@@ -24,6 +25,13 @@ public class Shelter {
 
     @Column(name = "email")
     private String email;
+
+    @ManyToMany
+    @JoinTable(name = "shelter_admin_shelter",
+            joinColumns = @JoinColumn(name = "shelter_id"),
+            inverseJoinColumns = @JoinColumn(name = "shelter_admin_id")
+    )
+    private Set<ShelterAdmin> shelterAdmins;
 
     @OneToMany(mappedBy = "shelter", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     private List<Animal> animals;

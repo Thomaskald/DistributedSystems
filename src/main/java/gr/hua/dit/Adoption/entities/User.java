@@ -1,6 +1,7 @@
 package gr.hua.dit.Adoption.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 import java.util.HashSet;
@@ -24,6 +25,7 @@ public class User {
     private String password;
 
     @NotBlank
+    @Email
     private String email;
 
     @NotBlank
