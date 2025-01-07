@@ -3,6 +3,7 @@ package gr.hua.dit.Adoption.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -28,7 +29,7 @@ public class User {
     @Email
     private String email;
 
-    @NotBlank
+    @NotNull
     private long phoneNumber;
 
     @NotBlank

@@ -55,14 +55,14 @@ public class UserController {
     }
 
     @PostMapping("/user/{user_id}")
-    public String saveStudent(@PathVariable Long user_id, @ModelAttribute("user") User user, Model model) {
+    public String saveUser(@PathVariable Long user_id, @ModelAttribute("user") User user, Model model) {
         User the_user = (User) userService.getUser(user_id);
-        the_user.setEmail(user.getEmail());
         the_user.setUsername(user.getUsername());
+        the_user.setEmail(user.getEmail());
         the_user.setPassword(user.getPassword());
-        the_user.setRoles(user.getRoles());
-        the_user.setAddress(user.getAddress());
         the_user.setPhoneNumber(user.getPhoneNumber());
+        the_user.setAddress(user.getAddress());
+        the_user.setRoles(user.getRoles());
         userService.updateUser(the_user);
         model.addAttribute("users", userService.getUsers());
         return "auth/users";
