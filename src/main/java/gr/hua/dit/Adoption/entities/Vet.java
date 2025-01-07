@@ -11,6 +11,9 @@ public class Vet extends User {
 
     private long licenseNumber;
 
+    @ElementCollection
+    @CollectionTable(name = "checked_pets", joinColumns = @JoinColumn(name = "vet_id"))
+    @Column(name = "pets")
     private List<String> checkedPets;
 
     public Vet() {
