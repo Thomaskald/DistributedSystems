@@ -59,6 +59,10 @@ public class UserController {
         User the_user = (User) userService.getUser(user_id);
         the_user.setEmail(user.getEmail());
         the_user.setUsername(user.getUsername());
+        the_user.setPassword(user.getPassword());
+        the_user.setRoles(user.getRoles());
+        the_user.setAddress(user.getAddress());
+        the_user.setPhoneNumber(user.getPhoneNumber());
         userService.updateUser(the_user);
         model.addAttribute("users", userService.getUsers());
         return "auth/users";
