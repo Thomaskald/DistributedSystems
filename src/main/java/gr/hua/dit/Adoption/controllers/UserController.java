@@ -2,6 +2,7 @@ package gr.hua.dit.Adoption.controllers;
 
 import gr.hua.dit.Adoption.entities.Role;
 import gr.hua.dit.Adoption.entities.User;
+import gr.hua.dit.Adoption.entities.Vet;
 import gr.hua.dit.Adoption.repositories.RoleRepository;
 import gr.hua.dit.Adoption.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -63,6 +64,10 @@ public class UserController {
         the_user.setPhoneNumber(user.getPhoneNumber());
         the_user.setAddress(user.getAddress());
         the_user.setRoles(user.getRoles());
+        if (the_user instanceof Vet the_vet) {
+            Vet input_vet = (Vet) user; // Assuming you know the input user is also a Vet
+            the_vet.setLicenseNumber(input_vet.getLicenseNumber());
+        }
         userService.updateUser(the_user);
         model.addAttribute("users", userService.getUsers());
         return "auth/users";

@@ -7,6 +7,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
+<!--    <style>-->
+<!--        .hidden {-->
+<!--            display:none;-->
+<!--        }-->
+<!--    </style>-->
+<!--    <script>-->
+<!--        function updateForm() {-->
+<!--            const userType = document.getElementById('userType').value;-->
+<!--            const vetFields = document.getElementById('vetFields');-->
+
+<!--            if (userType === 'vet') {-->
+<!--                vetFields.classList.remove('hidden');-->
+<!--            } else {-->
+<!--                vetFields.classList.add('hidden');-->
+<!--            }-->
+<!--        }-->
+<!--    </script>-->
 </head>
 <body>
 <div layout:fragment="main-content">
@@ -15,6 +32,16 @@
     </div>
     <h3>User Registration</h3>
     <form th:action="@{/saveUser}" method="post" th:object="${user}">
+
+<!--        <div class="form-group">-->
+<!--            <label for="userType">Register as:</label>-->
+<!--            <select id="userType" name="userType" onchange="updateForm()">-->
+<!--                <option value="">&#45;&#45;Select&#45;&#45;</option>-->
+<!--                <option value="user">User</option>-->
+<!--                <option value="vet">Vet</option>-->
+<!--            </select>-->
+<!--        </div>-->
+
         <div class="form-group row">
             <label for="username"> User Name</label>
 
@@ -40,6 +67,12 @@
             <input type="text" class="form-control"  th:field="*{address}" id="address"/>
         </div>
 
+<!--        <div id="vetFields" class="hidden">-->
+<!--            <div class="form-group row">-->
+<!--                <label for="licenceNumber">Licence Number:</label>-->
+<!--                <input type="text" id="licenceNumber" name="licenceNumber" placeholder="Enter your licence number">-->
+<!--            </div>-->
+<!--        </div>-->
 
         <div><input type="submit" class="btn btn-primary" value="Sign Up"/></div>
     </form>
