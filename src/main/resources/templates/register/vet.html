@@ -7,23 +7,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
-<!--    <style>-->
-<!--        .hidden {-->
-<!--            display:none;-->
-<!--        }-->
-<!--    </style>-->
-<!--    <script>-->
-<!--        function updateForm() {-->
-<!--            const userType = document.getElementById('userType').value;-->
-<!--            const vetFields = document.getElementById('vetFields');-->
-
-<!--            if (userType === 'vet') {-->
-<!--                vetFields.classList.remove('hidden');-->
-<!--            } else {-->
-<!--                vetFields.classList.add('hidden');-->
-<!--            }-->
-<!--        }-->
-<!--    </script>-->
 </head>
 <body>
 <div layout:fragment="main-content">
@@ -31,17 +14,17 @@
         Invalid username and password.
     </div>
     <h3>User Registration</h3>
-    <form th:action="@{/saveUser}" method="post" th:object="${user}">
+    <form th:action="@{/saveVet}" method="post" th:object="${vet}">
 
         <div class="form-group row">
             <label for="username"> User Name</label>
 
-            <input type="text" class="form-control" th:field="*{username}" id="username"/>
+            <input type="text" class="form-control" id="username" th:field="*{username}"/>
 
         </div>
         <div class="form-group row">
             <label for="email"> Email</label>
-            <input type="text" class="form-control"  th:field="*{email}" id="email"/>
+            <input type="text" class="form-control"   id="email" th:field="*{email}"/>
         </div>
         <div class="form-group row">
             <label for="password"> Password </label>
@@ -55,13 +38,18 @@
 
         <div class="form-group row">
             <label for="address"> Address</label>
-            <input type="text" class="form-control"  th:field="*{address}" id="address"/>
+            <input type="text" class="form-control" id="address" th:field="*{address}"/>
+        </div>
+
+        <div class="form-group row">
+            <label for="licenseNumber"> License Number</label>
+            <input type="text" class="form-control" id="licenseNumber" th:field="*{licenseNumber}"/>
         </div>
 
         <div><input type="submit" class="btn btn-primary" value="Sign Up"/></div>
 
+        <a href="auth/user"> Register as adopter</a>
         <a href="register/shelter"> Register as shelter</a>
-        <a href="register/vet"> Register as vet</a>
     </form>
     <div th:text="${msg}"></div>
 </div>

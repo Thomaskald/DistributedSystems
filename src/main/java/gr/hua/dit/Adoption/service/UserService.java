@@ -2,8 +2,10 @@ package gr.hua.dit.Adoption.service;
 
 import gr.hua.dit.Adoption.entities.Role;
 import gr.hua.dit.Adoption.entities.User;
+import gr.hua.dit.Adoption.entities.Vet;
 import gr.hua.dit.Adoption.repositories.RoleRepository;
 import gr.hua.dit.Adoption.repositories.UserRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.transaction.Transactional;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,6 +36,22 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
+    public Integer saveVet(Vet vet) {
+        String passwd = vet.getPassword();
+        String encodedPasswd = passwordEncoder.encode(passwd);
+        vet.setPassword(encodedPasswd);
+
+        Role role = roleRepository.findByName("ROLE_VET")
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+        vet.setRoles(roles);
+
+        vet = userRepository.save(vet);
+        return vet.getId();
+    }
+
+    @Transactional
     public Integer saveUser(User user) {
         String passwd= user.getPassword();
         String encodedPassword = passwordEncoder.encode(passwd);
@@ -48,6 +66,12 @@ public class UserService implements UserDetailsService {
         user = userRepository.save(user);
         return user.getId();
     }
+
+//    @Transactional
+//    public Integer updateVet(Vet vet) {
+//        vet = userRepository.save(vet);
+//        return vet.getId();
+//    }
 
     @Transactional
     public Integer updateUser(User user) {
