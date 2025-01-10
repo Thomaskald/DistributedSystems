@@ -69,6 +69,8 @@ public class UserController {
     public String showUsers(Model model){
         model.addAttribute("users", userService.getUsers());
         model.addAttribute("roles", roleRepository.findAll());
+        model.addAttribute("msg", null); // Or provide an actual message if necessary
+        model.addAttribute("msgType", null); // Optional, for styling
         return "auth/users";
     }
 
@@ -76,6 +78,19 @@ public class UserController {
     public String showUser(@PathVariable Long user_id, Model model){
         model.addAttribute("user", userService.getUser(user_id));
         return "auth/user";
+    }
+
+//    @GetMapping("/user/delete/{user_id}")
+//    public String deleteUser(@PathVariable Long user_id, Model model) {
+//        userService.deleteUserById(user_id); // Call the service method to delete the user
+//        model.addAttribute("users", userService.getUsers()); // Update the model with the remaining users
+//        return "auth/users"; // Redirect to the users page
+//    }
+
+    @GetMapping("/user/delete/{user_id}")
+    public String deleteUser(@PathVariable Long user_id) {
+        userService.deleteUserById(user_id); // Perform the delete operation
+        return "redirect:/users";
     }
 
     @GetMapping("/user/role/delete/{user_id}/{role_id}")
@@ -103,5 +118,6 @@ public class UserController {
         return "auth/users";
 
     }
+
 
 }

@@ -115,6 +115,11 @@ public class UserService implements UserDetailsService {
         user = userRepository.save(user);
         return user.getId();
     }
+
+    public void deleteUserById(Long userId) {
+        userRepository.deleteById(userId);
+    }
+
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
