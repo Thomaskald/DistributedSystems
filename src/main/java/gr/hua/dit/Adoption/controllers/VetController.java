@@ -31,11 +31,10 @@ public class VetController {
         return "register/vet";
     }
 
-
     @PostMapping("/saveVet")
     public String saveVet(@ModelAttribute Vet vet, Model model){
         System.out.println("Roles: "+vet.getRoles());
-        Integer id = userService.saveVet(vet);
+        Integer id = userService.saveUser(vet);
         String message = "Vet '"+id+"' saved successfully !";
         model.addAttribute("msg", message);
         return "index";
@@ -51,7 +50,7 @@ public class VetController {
         the_vet.setAddress(vet.getAddress());
         the_vet.setRoles(vet.getRoles());
         the_vet.setLicenseNumber(vet.getLicenseNumber());
-        userService.updateUser(the_vet);
+        userService.updateVet(the_vet);
         System.out.println(vet);
         model.addAttribute("vets", userService.getUsers());
         return "auth/users";

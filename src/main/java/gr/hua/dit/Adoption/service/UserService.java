@@ -5,6 +5,7 @@ import gr.hua.dit.Adoption.entities.User;
 import gr.hua.dit.Adoption.entities.Vet;
 import gr.hua.dit.Adoption.repositories.RoleRepository;
 import gr.hua.dit.Adoption.repositories.UserRepository;
+import gr.hua.dit.Adoption.repositories.VetRepository;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.transaction.Transactional;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,16 +24,18 @@ import java.util.stream.Collectors;
 public class UserService implements UserDetailsService {
 
 
+    private final VetRepository vetRepository;
     private UserRepository userRepository;
 
     private RoleRepository roleRepository;
 
     private BCryptPasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder, VetRepository vetRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.vetRepository = vetRepository;
     }
 
     @Transactional
@@ -56,9 +59,14 @@ public class UserService implements UserDetailsService {
         String passwd= user.getPassword();
         String encodedPassword = passwordEncoder.encode(passwd);
         user.setPassword(encodedPassword);
-
-        Role role = roleRepository.findByName("ROLE_VET")
+        Role role;
+        if (user instanceof Vet) {
+            role = roleRepository.findByName("ROLE_VET")
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        } else {
+            role = roleRepository.findByName("ROLE_ADOPTER")
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        }
         Set<Role> roles = new HashSet<>();
         roles.add(role);
         user.setRoles(roles);
@@ -67,11 +75,11 @@ public class UserService implements UserDetailsService {
         return user.getId();
     }
 
-//    @Transactional
-//    public Integer updateVet(Vet vet) {
-//        vet = userRepository.save(vet);
-//        return vet.getId();
-//    }
+    @Transactional
+    public Integer updateVet(Vet vet) {
+        vet = vetRepository.save(vet);
+        return vet.getId();
+    }
 
     @Transactional
     public Integer updateUser(User user) {

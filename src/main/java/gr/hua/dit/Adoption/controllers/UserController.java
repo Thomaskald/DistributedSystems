@@ -2,6 +2,7 @@ package gr.hua.dit.Adoption.controllers;
 
 import gr.hua.dit.Adoption.entities.Role;
 import gr.hua.dit.Adoption.entities.User;
+import gr.hua.dit.Adoption.entities.Vet;
 import gr.hua.dit.Adoption.repositories.RoleRepository;
 import gr.hua.dit.Adoption.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -31,6 +32,14 @@ public class UserController {
         return "auth/register";
     }
 
+//    @PostMapping("/saveUser")
+//    public String saveAdopter(@ModelAttribute User user, Model model) {
+//        System.out.println("Roles: "+user.getRoles());
+//        Integer id = userService.saveUser(user);
+//        String message = "User '"+id+"' saved successfully !";
+//        model.addAttribute("msg", message);
+//        return "index";
+//    }
 
     @PostMapping("/saveUser")
     public String saveUser(@ModelAttribute User user, Model model){
@@ -39,19 +48,6 @@ public class UserController {
         String message = "User '"+id+"' saved successfully !";
         model.addAttribute("msg", message);
         return "index";
-    }
-
-    @GetMapping("/users")
-    public String showUsers(Model model){
-        model.addAttribute("users", userService.getUsers());
-        model.addAttribute("roles", roleRepository.findAll());
-        return "auth/users";
-    }
-
-    @GetMapping("/user/{user_id}")
-    public String showUser(@PathVariable Long user_id, Model model){
-        model.addAttribute("user", userService.getUser(user_id));
-        return "auth/user";
     }
 
     @PostMapping("/user/{user_id}")
@@ -67,6 +63,19 @@ public class UserController {
         System.out.println(user);
         model.addAttribute("users", userService.getUsers());
         return "auth/users";
+    }
+
+    @GetMapping("/users")
+    public String showUsers(Model model){
+        model.addAttribute("users", userService.getUsers());
+        model.addAttribute("roles", roleRepository.findAll());
+        return "auth/users";
+    }
+
+    @GetMapping("/user/{user_id}")
+    public String showUser(@PathVariable Long user_id, Model model){
+        model.addAttribute("user", userService.getUser(user_id));
+        return "auth/user";
     }
 
     @GetMapping("/user/role/delete/{user_id}/{role_id}")
