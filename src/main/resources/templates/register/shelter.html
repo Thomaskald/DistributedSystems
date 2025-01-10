@@ -7,40 +7,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
-    <!--    <style>-->
-    <!--        .hidden {-->
-    <!--            display:none;-->
-    <!--        }-->
-    <!--    </style>-->
-    <!--    <script>-->
-    <!--        function updateForm() {-->
-    <!--            const userType = document.getElementById('userType').value;-->
-    <!--            const vetFields = document.getElementById('vetFields');-->
-
-    <!--            if (userType === 'vet') {-->
-    <!--                vetFields.classList.remove('hidden');-->
-    <!--            } else {-->
-    <!--                vetFields.classList.add('hidden');-->
-    <!--            }-->
-    <!--        }-->
-    <!--    </script>-->
 </head>
 <body>
 <div layout:fragment="main-content">
     <div th:if="${param.error}">
         Invalid username and password.
     </div>
-    <h3>Vet Registration</h3>
-    <form th:action="@{/saveVet}" method="post" th:object="${vet}">
-
-        <!--        <div class="form-group">-->
-        <!--            <label for="userType">Register as:</label>-->
-        <!--            <select id="userType" name="userType" onchange="updateForm()">-->
-        <!--                <option value="">&#45;&#45;Select&#45;&#45;</option>-->
-        <!--                <option value="user">User</option>-->
-        <!--                <option value="vet">Vet</option>-->
-        <!--            </select>-->
-        <!--        </div>-->
+    <h3>Shelter Registration</h3>
+    <form th:action="@{/saveShelter}" method="post" th:object="${shelter}">
 
         <div class="form-group row">
             <label for="username"> User Name</label>
@@ -67,17 +41,11 @@
             <input type="text" class="form-control"  th:field="*{address}" id="address"/>
         </div>
 
-        <!--        <div id="vetFields" class="hidden">-->
-        <!--            <div class="form-group row">-->
-        <!--                <label for="licenceNumber">Licence Number:</label>-->
-        <!--                <input type="text" id="licenceNumber" name="licenceNumber" placeholder="Enter your licence number">-->
-        <!--            </div>-->
-        <!--        </div>-->
 
         <div><input type="submit" class="btn btn-primary" value="Sign Up"/></div>
 
-        <a href="auth/user"> Register as adopter</a>
-        <a href="register/vet"> Register as vet</a>
+        <a href="/register"> Register as adopter</a>
+        <a href="/register/vet"> Register as vet</a>
     </form>
     <div th:text="${msg}"></div>
 </div>

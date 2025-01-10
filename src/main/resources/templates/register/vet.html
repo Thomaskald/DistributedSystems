@@ -13,7 +13,7 @@
     <div th:if="${param.error}">
         Invalid username and password.
     </div>
-    <h3>User Registration</h3>
+    <h3>Vet Registration</h3>
     <form th:action="@{/saveVet}" method="post" th:object="${vet}">
 
         <div class="form-group row">
@@ -48,8 +48,8 @@
 
         <div><input type="submit" class="btn btn-primary" value="Sign Up"/></div>
 
-        <a href="auth/user"> Register as adopter</a>
-        <a href="register/shelter"> Register as shelter</a>
+        <a href="/register"> Register as adopter</a>
+        <a href="/register/shelter"> Register as shelter</a>
     </form>
     <div th:text="${msg}"></div>
 </div>

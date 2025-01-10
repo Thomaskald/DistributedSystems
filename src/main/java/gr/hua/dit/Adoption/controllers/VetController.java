@@ -50,7 +50,7 @@ public class VetController {
         the_vet.setAddress(vet.getAddress());
         the_vet.setRoles(vet.getRoles());
         the_vet.setLicenseNumber(vet.getLicenseNumber());
-        userService.updateVet(the_vet);
+        userService.updateUser(the_vet);
         System.out.println(vet);
         model.addAttribute("vets", userService.getUsers());
         return "auth/users";

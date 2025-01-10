@@ -20,7 +20,7 @@ public class AuthController {
         Role role_adopter = new Role("ROLE_ADOPTER");
         Role role_admin = new Role("ROLE_ADMIN");
         Role role_vet = new Role("ROLE_VET");
-        Role role_shelter_admin = new Role("ROLE_SHELTER_ADMIN");
+        Role role_shelter_admin = new Role("ROLE_SHELTER");
 
         roleRepository.updateOrInsert(role_adopter);
         roleRepository.updateOrInsert(role_admin);

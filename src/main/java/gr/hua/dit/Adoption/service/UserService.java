@@ -1,9 +1,11 @@
 package gr.hua.dit.Adoption.service;
 
 import gr.hua.dit.Adoption.entities.Role;
+import gr.hua.dit.Adoption.entities.Shelter;
 import gr.hua.dit.Adoption.entities.User;
 import gr.hua.dit.Adoption.entities.Vet;
 import gr.hua.dit.Adoption.repositories.RoleRepository;
+import gr.hua.dit.Adoption.repositories.ShelterRepository;
 import gr.hua.dit.Adoption.repositories.UserRepository;
 import gr.hua.dit.Adoption.repositories.VetRepository;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -25,17 +27,19 @@ public class UserService implements UserDetailsService {
 
 
     private final VetRepository vetRepository;
+    private final ShelterRepository shelterRepository;
     private UserRepository userRepository;
 
     private RoleRepository roleRepository;
 
     private BCryptPasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder, VetRepository vetRepository) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder, VetRepository vetRepository, ShelterRepository shelterRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.vetRepository = vetRepository;
+        this.shelterRepository = shelterRepository;
     }
 
     @Transactional
@@ -55,6 +59,22 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
+    public Integer saveShelter(Shelter shelter) {
+        String passwd = shelter.getPassword();
+        String encodedPasswd = passwordEncoder.encode(passwd);
+        shelter.setPassword(encodedPasswd);
+
+        Role role = roleRepository.findByName("ROLE_SHELTER")
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+        shelter.setRoles(roles);
+
+        shelter = userRepository.save(shelter);
+        return shelter.getId();
+    }
+
+    @Transactional
     public Integer saveUser(User user) {
         String passwd= user.getPassword();
         String encodedPassword = passwordEncoder.encode(passwd);
@@ -63,9 +83,12 @@ public class UserService implements UserDetailsService {
         if (user instanceof Vet) {
             role = roleRepository.findByName("ROLE_VET")
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-        } else {
-            role = roleRepository.findByName("ROLE_ADOPTER")
+        } else if(user instanceof Shelter) {
+            role = roleRepository.findByName("ROLE_SHELTER")
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        }else{
+            role = roleRepository.findByName("ROLE_ADOPTER")
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
         }
         Set<Role> roles = new HashSet<>();
         roles.add(role);
@@ -79,6 +102,12 @@ public class UserService implements UserDetailsService {
     public Integer updateVet(Vet vet) {
         vet = vetRepository.save(vet);
         return vet.getId();
+    }
+
+    @Transactional
+    public Integer updateShelter(Shelter shelter) {
+        shelter = shelterRepository.save(shelter);
+        return shelter.getId();
     }
 
     @Transactional
