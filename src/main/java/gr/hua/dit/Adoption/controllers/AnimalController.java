@@ -2,8 +2,10 @@ package gr.hua.dit.Adoption.controllers;
 
 
 import gr.hua.dit.Adoption.entities.Animal;
+import gr.hua.dit.Adoption.entities.Shelter;
 import gr.hua.dit.Adoption.repositories.RoleRepository;
 import gr.hua.dit.Adoption.service.AnimalService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,6 +45,11 @@ public class AnimalController {
         the_animal.setAge(animal.getAge());
         the_animal.setSpecies(animal.getSpecies());
         the_animal.setDescription(animal.getDescription());
+
+        Shelter shelter = (Shelter) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        the_animal.setShelter(shelter);
+
+
         animalService.updateAnimal(the_animal);
         model.addAttribute("animal", animalService.getAnimals());
         return "animal/animals";
