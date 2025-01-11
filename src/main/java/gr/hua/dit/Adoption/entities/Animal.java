@@ -18,7 +18,7 @@ public class Animal {
     private String gender;
 
     @Column(name = "age")
-    private int age;
+    private String age;
 
     @Column(name = "species")
     private String species;
@@ -28,7 +28,7 @@ public class Animal {
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinColumn(name = "shelter_id")
+    @JoinColumn(name = "shelter_id", referencedColumnName = "id")
     private Shelter shelter;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
@@ -37,12 +37,13 @@ public class Animal {
     private Adopter adopter;
 
     public Animal() {}
-    public Animal(String name, String gender, int age, String species, String description) {
+    public Animal(String name, String gender, String age, String species, String description, Shelter shelter) {
         this.name = name;
         this.gender = gender;
         this.age = age;
         this.species = species;
         this.description = description;
+        this.shelter = shelter;
     }
 
 
@@ -70,11 +71,11 @@ public class Animal {
         this.gender = gender;
     }
 
-    public int getAge() {
+    public String getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(String age) {
         this.age = age;
     }
 
@@ -93,6 +94,10 @@ public class Animal {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public Shelter getShelter() {return shelter;}
+
+    public void setShelter(Shelter shelter) {this.shelter = shelter;}
 
     @Override
     public String toString() {

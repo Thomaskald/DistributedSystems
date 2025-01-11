@@ -1,10 +1,13 @@
 package gr.hua.dit.Adoption.controllers;
 
+import gr.hua.dit.Adoption.entities.Animal;
 import gr.hua.dit.Adoption.entities.Shelter;
 import gr.hua.dit.Adoption.entities.User;
 import gr.hua.dit.Adoption.entities.Vet;
+import gr.hua.dit.Adoption.repositories.AnimalRepository;
 import gr.hua.dit.Adoption.repositories.RoleRepository;
 import gr.hua.dit.Adoption.repositories.UserRepository;
+import gr.hua.dit.Adoption.service.AnimalService;
 import gr.hua.dit.Adoption.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,4 +59,6 @@ public class ShelterController {
         model.addAttribute("shelters", userService.getUsers());
         return "auth/users";
     }
+
+
 }

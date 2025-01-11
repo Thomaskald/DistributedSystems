@@ -32,15 +32,6 @@ public class UserController {
         return "auth/register";
     }
 
-//    @PostMapping("/saveUser")
-//    public String saveAdopter(@ModelAttribute User user, Model model) {
-//        System.out.println("Roles: "+user.getRoles());
-//        Integer id = userService.saveUser(user);
-//        String message = "User '"+id+"' saved successfully !";
-//        model.addAttribute("msg", message);
-//        return "index";
-//    }
-
     @PostMapping("/saveUser")
     public String saveUser(@ModelAttribute User user, Model model){
         System.out.println("Roles: "+user.getRoles());

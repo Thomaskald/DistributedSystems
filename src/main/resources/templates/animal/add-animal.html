@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{page_layout/layout}">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Add pet</title>
+</head>
+<body>
+<div layout:fragment="main-content">
+  <div th:if="${param.error}">
+    Invalid animal information
+  </div>
+  <h3>Animal Registration</h3>
+  <form th:action="@{/saveAnimal}" method="post" th:object="${animal}">
+
+    <div class="form-group row">
+      <label for="name"> Animal Name</label>
+
+      <input type="text" class="form-control" id="name" th:field="*{name}"/>
+
+    </div>
+    <div class="form-group row">
+      <label for="gender"> Gender</label>
+      <input type="text" class="form-control"   id="gender" th:field="*{gender}"/>
+    </div>
+    <div class="form-group row">
+      <label for="age"> Age </label>
+      <input type="text" class="form-control"  id="age" th:field="*{age}"/>
+    </div>
+
+    <div class="form-group row">
+      <label for="species"> Species</label>
+      <input type="text" class="form-control" id="species" th:field="*{species}"/>
+    </div>
+
+    <div class="form-group row">
+      <label for="description"> Description</label>
+      <input type="text" class="form-control" id="description" th:field="*{description}"/>
+    </div>
+
+    <div><input type="submit" class="btn btn-primary" value="Add pet"/></div>
+
+  </form>
+  <div th:text="${msg}"></div>
+</div>
+
+</div>
+</body>
+</html>
