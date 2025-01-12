@@ -2,6 +2,7 @@ package gr.hua.dit.Adoption.service;
 
 import gr.hua.dit.Adoption.entities.Animal;
 import gr.hua.dit.Adoption.entities.Shelter;
+import gr.hua.dit.Adoption.entities.User;
 import gr.hua.dit.Adoption.repositories.AnimalRepository;
 import gr.hua.dit.Adoption.repositories.UserRepository;
 import jakarta.transaction.Transactional;

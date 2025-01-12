@@ -1,6 +1,10 @@
 package gr.hua.dit.Adoption.entities;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "animal")
@@ -29,7 +33,17 @@ public class Animal {
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "shelter_id", referencedColumnName = "id")
-    private Shelter shelter;
+    private User shelter;
+
+//    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+//            CascadeType.DETACH, CascadeType.REFRESH})
+//    @JoinTable(name = "animal_shelter",
+//            joinColumns = @JoinColumn(name = "animal_id"),
+//            inverseJoinColumns = @JoinColumn(name = "shelter_id"))
+//    private Shelter shelter;
+
+
+
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH})
@@ -95,9 +109,36 @@ public class Animal {
         this.description = description;
     }
 
-    public Shelter getShelter() {return shelter;}
+    public User getShelter() {return shelter;}
 
-    public void setShelter(Shelter shelter) {this.shelter = shelter;}
+    public void setShelter(User shelter) {this.shelter = shelter;}
+
+
+//    public void setShelterId(int shelterId) {
+//        if (shelterId > 0) { // Assume IDs are positive integers
+//            Shelter shelter = new Shelter();
+//            shelter.setId(shelterId); // Set only the ID on the Shelter object
+//            this.shelter = shelter;
+//        } else {
+//            this.shelter = null; // Reset the shelter if an invalid ID is provided
+//        }
+//    }
+
+//    public int getShelterId() {
+//        return getShelter().getId();
+//    }
+//
+//
+
+
+
+
+//    public void setShelterId(int id) {this.shelter_id = shelter_id;}
+//
+//    public int getShelterId() {
+//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        return user.getId();
+//    }
 
     @Override
     public String toString() {

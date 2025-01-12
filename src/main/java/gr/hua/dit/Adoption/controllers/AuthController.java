@@ -1,10 +1,12 @@
 package gr.hua.dit.Adoption.controllers;
 
 import gr.hua.dit.Adoption.entities.Role;
+import gr.hua.dit.Adoption.entities.User;
 import gr.hua.dit.Adoption.repositories.RoleRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class AuthController {
@@ -29,7 +31,9 @@ public class AuthController {
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String login(User user) {
+//        User signedInUser = new User();
+//        signedInUser.setId(user.getId());
         return "auth/login";
     }
 }

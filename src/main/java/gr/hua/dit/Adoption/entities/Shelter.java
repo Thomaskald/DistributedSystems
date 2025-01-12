@@ -15,10 +15,29 @@ public class Shelter extends User{
     @Column(name = "pets")
     private List<String> shelterPets;
 
-    public Shelter() {}
+    @OneToMany(mappedBy = "shelter")
+    private List<Animal> animals;
 
-    public Shelter(List<String> shelterPets) {this.shelterPets = shelterPets;}
+    public Shelter(List<Animal> animals) {
+        this.animals = animals;
+    }
+
+    public Shelter(List<String> shelterPets, List<Animal> animals) {this.shelterPets = shelterPets;
+        this.animals = animals;
+    }
+
+    public Shelter() {
+
+    }
 
     public List<String> getShelterPets() {return shelterPets;}
     public void setShelterPets(List<String> shelterPets) {this.shelterPets = shelterPets;}
+
+    public List<Animal> getAnimals() {
+        return animals;
+    }
+
+    public void setAnimals(List<Animal> animals) {
+        this.animals = animals;
+    }
 }
