@@ -45,9 +45,6 @@ public class AnimalController {
 
     @PostMapping("/saveAnimal")
     public String saveAnimal(@ModelAttribute Animal animal, Model model) {
-        String username = LoggedInUserUtils.getLoggedInUsername();
-        User user = userRepository.findByUsername(username);
-        animal.setShelter(user);
         Integer id = animalService.saveAnimal(animal);
         String message = "Animal '"+id+"' saved successfully !";
         model.addAttribute("msg", message);

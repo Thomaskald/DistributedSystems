@@ -13,6 +13,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 //    @Query("SELECT u FROM User u WHERE u.username = :username AND u.roles = 'SHELTER'")
 //    User findShelterByUsername(String username);
     User findByUsername(String username);
+    User findUserByEmail(String username);
     Boolean existsByUsername(String username);
     Boolean existsByEmail(String email);
 }

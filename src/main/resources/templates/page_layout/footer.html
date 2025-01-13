@@ -11,7 +11,7 @@
   <div class="inner">
       <div sec:authorize="isAuthenticated()">
           Authenticated username:
-          <span sec:authentication="name"></span>
+          <span sec:authentication="principal.username"></span>
           Authenticated user roles:
           <span sec:authentication="principal.authorities"></span>
       </div>

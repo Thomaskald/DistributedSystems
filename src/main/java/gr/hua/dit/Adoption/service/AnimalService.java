@@ -1,5 +1,6 @@
 package gr.hua.dit.Adoption.service;
 
+import gr.hua.dit.Adoption.Utils.LoggedInUserUtils;
 import gr.hua.dit.Adoption.entities.Animal;
 import gr.hua.dit.Adoption.entities.Shelter;
 import gr.hua.dit.Adoption.entities.User;
@@ -11,8 +12,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class AnimalService {
 
-    private final AnimalRepository animalRepository;
-    private final UserRepository userRepository;
+    private AnimalRepository animalRepository;
+    private UserRepository userRepository;
 
     public AnimalService(AnimalRepository animalRepository, UserRepository userRepository) {
         this.animalRepository = animalRepository;
@@ -21,6 +22,10 @@ public class AnimalService {
 
     @Transactional
     public Integer saveAnimal(Animal animal) {
+        String username = LoggedInUserUtils.getLoggedInUsername();
+        User user = userRepository.findUserByEmail(username);
+        animal.setShelter(user);
+
         animal = animalRepository.save(animal);
         return animal.getId();
     }
