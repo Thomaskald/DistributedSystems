@@ -35,29 +35,22 @@ public class Animal {
     @JoinColumn(name = "shelter_id", referencedColumnName = "id")
     private User shelter;
 
-//    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-//            CascadeType.DETACH, CascadeType.REFRESH})
-//    @JoinTable(name = "animal_shelter",
-//            joinColumns = @JoinColumn(name = "animal_id"),
-//            inverseJoinColumns = @JoinColumn(name = "shelter_id"))
-//    private Shelter shelter;
-
-
 
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinColumn(name = "adopter_id")
-    private Adopter adopter;
+    @JoinColumn(name = "adopter_id", referencedColumnName = "id")
+    private User adopter;
 
     public Animal() {}
-    public Animal(String name, String gender, String age, String species, String description, Shelter shelter) {
+    public Animal(String name, String gender, String age, String species, String description, Shelter shelter, Adopter adopter) {
         this.name = name;
         this.gender = gender;
         this.age = age;
         this.species = species;
         this.description = description;
         this.shelter = shelter;
+        this.adopter = adopter;
     }
 
 
@@ -113,32 +106,13 @@ public class Animal {
 
     public void setShelter(User shelter) {this.shelter = shelter;}
 
+    public User getAdopter() {
+        return adopter;
+    }
 
-//    public void setShelterId(int shelterId) {
-//        if (shelterId > 0) { // Assume IDs are positive integers
-//            Shelter shelter = new Shelter();
-//            shelter.setId(shelterId); // Set only the ID on the Shelter object
-//            this.shelter = shelter;
-//        } else {
-//            this.shelter = null; // Reset the shelter if an invalid ID is provided
-//        }
-//    }
-
-//    public int getShelterId() {
-//        return getShelter().getId();
-//    }
-//
-//
-
-
-
-
-//    public void setShelterId(int id) {this.shelter_id = shelter_id;}
-//
-//    public int getShelterId() {
-//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        return user.getId();
-//    }
+    public void setAdopter(User adopter) {
+        this.adopter = adopter;
+    }
 
     @Override
     public String toString() {

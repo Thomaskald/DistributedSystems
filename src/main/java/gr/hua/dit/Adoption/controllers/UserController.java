@@ -71,13 +71,6 @@ public class UserController {
         return "auth/user";
     }
 
-//    @GetMapping("/user/delete/{user_id}")
-//    public String deleteUser(@PathVariable Long user_id, Model model) {
-//        userService.deleteUserById(user_id); // Call the service method to delete the user
-//        model.addAttribute("users", userService.getUsers()); // Update the model with the remaining users
-//        return "auth/users"; // Redirect to the users page
-//    }
-
     @GetMapping("/user/delete/{user_id}")
     public String deleteUser(@PathVariable Long user_id) {
         userService.deleteUserById(user_id); // Perform the delete operation

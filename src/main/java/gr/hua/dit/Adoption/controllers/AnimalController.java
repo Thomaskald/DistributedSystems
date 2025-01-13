@@ -73,4 +73,11 @@ public class AnimalController {
         model.addAttribute("msgType", null);
         return "animal/animals";
     }
+
+    @GetMapping("/animal/adopt/{animal_id}")
+    public String Adopt(@PathVariable int animal_id, Model model) {
+        Animal animal =  animalRepository.findAnimalById(animal_id);
+        animalService.Adoption(animal);
+        return "index" ;
+    }
 }

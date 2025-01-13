@@ -21,6 +21,17 @@ public class AnimalService {
     }
 
     @Transactional
+    public Integer Adoption(Animal animal) {
+
+        String username = LoggedInUserUtils.getLoggedInUsername();
+        User user = userRepository.findUserByEmail(username);
+        animal.setAdopter(user);
+
+        animalRepository.save(animal);
+        return animal.getId();
+    }
+
+    @Transactional
     public Integer saveAnimal(Animal animal) {
         String username = LoggedInUserUtils.getLoggedInUsername();
         User user = userRepository.findUserByEmail(username);
@@ -32,8 +43,11 @@ public class AnimalService {
 
     @Transactional
     public Integer updateAnimal(Animal animal) {
-        /*Shelter shelter = (Shelter) userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
-        animal.setShelter(shelter);*/
+
+        String username = LoggedInUserUtils.getLoggedInUsername();
+        User user = userRepository.findUserByEmail(username);
+        animal.setShelter(user);
+
         animal = animalRepository.save(animal);
         return animal.getId();
     }
