@@ -4,6 +4,7 @@ import gr.hua.dit.Adoption.entities.Role;
 import gr.hua.dit.Adoption.entities.Shelter;
 import gr.hua.dit.Adoption.entities.User;
 import gr.hua.dit.Adoption.entities.Vet;
+import gr.hua.dit.Adoption.exceptions.UserNotEnabledException;
 import gr.hua.dit.Adoption.repositories.RoleRepository;
 import gr.hua.dit.Adoption.repositories.ShelterRepository;
 import gr.hua.dit.Adoption.repositories.UserRepository;
@@ -18,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -83,12 +85,15 @@ public class UserService implements UserDetailsService {
         if (user instanceof Vet) {
             role = roleRepository.findByName("ROLE_VET")
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            user.setStatus("ENABLED");
         } else if(user instanceof Shelter) {
             role = roleRepository.findByName("ROLE_SHELTER")
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            user.setStatus("PENDING");
         }else{
             role = roleRepository.findByName("ROLE_ADOPTER")
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            user.setStatus("ENABLED");
         }
         Set<Role> roles = new HashSet<>();
         roles.add(role);
@@ -129,7 +134,10 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException("User with email: " +username +" not found !");
         else {
             User user = opt.get();
-            return new org.springframework.security.core.userdetails.User(
+            if (!"ENABLED".equals(user.getStatus())){
+                throw new UserNotEnabledException("User with username: " +username +" is not enabled !");
+            }
+                return new org.springframework.security.core.userdetails.User(
                     user.getEmail(),
                     user.getPassword(),
                     user.getRoles()
@@ -143,6 +151,11 @@ public class UserService implements UserDetailsService {
     @Transactional
     public Object getUsers() {
         return userRepository.findAll();
+    }
+
+
+    public Object getPendingShelters() {
+        return userRepository.findByStatus("PENDING");
     }
 
     public Object getUser(Long userId) {

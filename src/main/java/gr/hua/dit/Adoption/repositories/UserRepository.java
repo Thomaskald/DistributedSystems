@@ -1,5 +1,6 @@
 package gr.hua.dit.Adoption.repositories;
 
+import gr.hua.dit.Adoption.entities.Role;
 import gr.hua.dit.Adoption.entities.Shelter;
 import gr.hua.dit.Adoption.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,4 +17,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findUserByEmail(String username);
     Boolean existsByUsername(String username);
     Boolean existsByEmail(String email);
+
+//    User findUserByRole(Role role);
+    User findByStatus(String pending);
 }

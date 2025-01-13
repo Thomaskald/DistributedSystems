@@ -26,8 +26,8 @@ public class Adopter extends User{
 
     public Adopter() {}
 
-    public Adopter(String username, String password, String email, long phoneNumber, String address, List<String> adoptionApplicationList) {
-        super(username, password, email, phoneNumber, address);
+    public Adopter(String username, String password, String email, long phoneNumber, String address, List<String> adoptionApplicationList, String status) {
+        super(username, password, email, phoneNumber, address,status);
         this.adoptionApplicationList = adoptionApplicationList;
     }
 }

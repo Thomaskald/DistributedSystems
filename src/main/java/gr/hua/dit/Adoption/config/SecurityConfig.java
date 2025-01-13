@@ -1,5 +1,6 @@
 package gr.hua.dit.Adoption.config;
 
+import gr.hua.dit.Adoption.handlers.CustomAuthenticationFailureHandler;
 import gr.hua.dit.Adoption.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,18 +22,21 @@ public class SecurityConfig {
 
     private BCryptPasswordEncoder passwordEncoder;
 
+    private CustomAuthenticationFailureHandler failureHandler;
 
-    public SecurityConfig(UserService userService,UserDetailsService userDetailsService,BCryptPasswordEncoder passwordEncoder) {
+
+    public SecurityConfig(UserService userService,UserDetailsService userDetailsService,BCryptPasswordEncoder passwordEncoder,CustomAuthenticationFailureHandler failureHandler) {
         this.userService = userService;
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
+        this.failureHandler = failureHandler;
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                                .requestMatchers("/users").hasRole("ADMIN")
+                                .requestMatchers("/users", "/admin/shelters/approve/**", "/auth/pending-shelters/").hasRole("ADMIN")
                                 .requestMatchers("/shelter/**" , "/animal/add-animal").hasRole("SHELTER")
                                 .requestMatchers("/animal/animals/**").hasRole("ADOPTER")
                                 .requestMatchers("/", "/home","/register", "saveUser", "/saveVet" ,  "/saveShelter","/saveAnimal",  "/register/vet" , "/register/shelter" , "/register/shelter" , "/images/**", "/js/**", "/css/**").permitAll()
@@ -44,8 +48,11 @@ public class SecurityConfig {
                 .formLogin((form) -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/", true)
+                        .failureHandler(failureHandler)
                         .permitAll())
-                .logout((logout) -> logout.permitAll());
+                .logout((logout) -> logout.permitAll())
+                .userDetailsService(userDetailsService);
+
         return http.build();
     }
 
