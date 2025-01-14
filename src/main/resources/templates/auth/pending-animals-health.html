@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{page_layout/layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pending Animals Health</title>
+</head>
+<body>
+<div layout:fragment="main-content">
+
+    <div th:if="${ not#lists.isEmpty(animals)}">
+
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Species</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="animal : ${animals}">
+                <div th:if="${animal.animalHealthStatus == 'PENDING'}">
+                    <td th:text="${animal.name}"></td>
+                    <td th:text="${animal.age}"></td>
+                    <td th:text="${animal.species}"></td>
+                    <td>
+                        <!-- Approve button -->
+                        <form th:action="@{/vet/animals/approve/{animal_id}(animal_id=${animal.id})}">
+                            <button type="submit">Approve</button>
+                        </form>
+
+                        <!-- Reject button -->
+                        <form th:action="@{/vet/animals/reject/{animal_id}(animal_id=${animal.id})}">
+                            <button type="submit">Reject</button>
+                        </form>
+                    </td>
+                </div>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:if="${#lists.isEmpty(animals)}">
+        No animals health pending approval!
+    </div>
+
+</div>
+</body>
+</html>

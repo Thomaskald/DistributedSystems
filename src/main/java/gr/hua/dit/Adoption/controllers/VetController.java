@@ -1,9 +1,12 @@
 package gr.hua.dit.Adoption.controllers;
 
+import gr.hua.dit.Adoption.entities.Animal;
 import gr.hua.dit.Adoption.entities.User;
 import gr.hua.dit.Adoption.entities.Vet;
+import gr.hua.dit.Adoption.repositories.AnimalRepository;
 import gr.hua.dit.Adoption.repositories.RoleRepository;
 import gr.hua.dit.Adoption.repositories.UserRepository;
+import gr.hua.dit.Adoption.service.AnimalService;
 import gr.hua.dit.Adoption.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,14 +17,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class VetController {
+    private final AnimalService animalService;
+    private final AnimalRepository animalRepository;
     private UserService userService;
 
     private UserRepository userRepository;
     private RoleRepository roleRepository;
 
-    public VetController(UserService userService, RoleRepository roleRepository) {
+    public VetController(UserService userService, RoleRepository roleRepository, AnimalService animalService, AnimalRepository animalRepository) {
         this.userService = userService;
         this.roleRepository = roleRepository;
+        this.animalService = animalService;
+        this.animalRepository = animalRepository;
     }
 
     @GetMapping("register/vet")
@@ -54,5 +61,26 @@ public class VetController {
         System.out.println(vet);
         model.addAttribute("vets", userService.getUsers());
         return "auth/users";
+    }
+
+    @GetMapping("/auth/pending-animals-health")
+    public String pendingAnimalsHealth(Model model) {
+        model.addAttribute("animals", animalService.getPendingHealthAnimals());
+        return "auth/pending-animals-health";
+    }
+
+    @GetMapping("/vet/animals/approve/{animal_id}")
+    public String approveAnimalHealth(@PathVariable int animal_id, Model model) {
+        Animal animal = (Animal) animalService.getAnimal(animal_id);
+        animal.setAnimalHealthStatus("APPROVED");
+        animalService.updateAnimal(animal);
+        return "index";
+    }
+
+    @GetMapping("/vet/animals/reject/{animal_id}")
+    public String rejectAnimalHealth(@PathVariable int animal_id, Model model) {
+        Animal animal = (Animal) animalService.getAnimal(animal_id);
+        animalRepository.delete(animal);
+        return "index";
     }
 }

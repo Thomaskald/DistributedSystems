@@ -26,6 +26,7 @@ public class AnimalService {
         String username = LoggedInUserUtils.getLoggedInUsername();
         User user = userRepository.findUserByEmail(username);
         animal.setAdopter(user);
+        animal.setAnimalAdoptionStatus("PENDING");
 
         animalRepository.save(animal);
         return animal.getId();
@@ -38,6 +39,8 @@ public class AnimalService {
         animal.setShelter(user);
 
         animal.setAnimalStatus("PENDING");
+        animal.setAnimalHealthStatus("PENDING");
+        animal.setAnimalAdoptionStatus("NOT_ADOPTED");
 
         animal = animalRepository.save(animal);
         return animal.getId();
@@ -66,4 +69,10 @@ public class AnimalService {
     public Object getPendingAnimals(){
         return animalRepository.findAnimalByAnimalStatus("PENDING");
     }
+
+    public Object getNotAdoptedAnimals(){
+        return animalRepository.findAnimalByAnimalAdoptionStatus("PENDING");
+    }
+
+    public Object getPendingHealthAnimals(){return animalRepository.findAnimalByAnimalHealthStatus("PENDING");}
 }

@@ -33,6 +33,12 @@ public class Animal {
     @Column(name = "animal_status")
     private String animalStatus;
 
+    @Column(name = "animal_health_status")
+    private String animalHealthStatus;
+
+    @Column(name = "animal_adoption_status")
+    private String animalAdoptionStatus;
+
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "shelter_id", referencedColumnName = "id")
@@ -46,7 +52,7 @@ public class Animal {
     private User adopter;
 
     public Animal() {}
-    public Animal(String name, String gender, String age, String species, String description, Shelter shelter, Adopter adopter, String animalStatus) {
+    public Animal(String name, String gender, String age, String species, String description, Shelter shelter, Adopter adopter, String animalStatus, String animalHealthStatus, String animalAdoptionStatus) {
         this.name = name;
         this.gender = gender;
         this.age = age;
@@ -55,6 +61,8 @@ public class Animal {
         this.shelter = shelter;
         this.adopter = adopter;
         this.animalStatus = animalStatus;
+        this.animalHealthStatus = animalHealthStatus;
+        this.animalAdoptionStatus = animalAdoptionStatus;
     }
 
 
@@ -118,9 +126,21 @@ public class Animal {
         this.adopter = adopter;
     }
 
-    public String getAnimalStatus() {return animalStatus;}
+    public String getAnimalStatus() { return animalStatus; }
 
-    public void setAnimalStatus(String animalStatus) {this.animalStatus = animalStatus;}
+    public void setAnimalStatus(String animalStatus) { this.animalStatus = animalStatus; }
+
+    public String getAnimalHealthStatus() { return animalHealthStatus; }
+
+    public void setAnimalHealthStatus(String animalHealthStatus) { this.animalHealthStatus = animalHealthStatus; }
+
+    public String getAnimalAdoptionStatus() {
+        return animalAdoptionStatus;
+    }
+
+    public void setAnimalAdoptionStatus(String animalAdoptionStatus) {
+        this.animalAdoptionStatus = animalAdoptionStatus;
+    }
 
     @Override
     public String toString() {

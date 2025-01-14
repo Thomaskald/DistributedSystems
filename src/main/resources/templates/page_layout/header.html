@@ -19,7 +19,9 @@
             <a class="nav-link" href="/animal/add-animal" data-path="/animal/add-animal">Shelter</a>
             <a class="nav-link" href="/auth/pending-shelters" data-path="/auth/pending-shelters">Pending shelters</a>
             <a class="nav-link" href="/auth/pending-animals" data-path="/auth/pending-animals">Pending Animals</a>
-<!--            Not authorized to see it-->
+            <a class="nav-link" href="/auth/pending-animals-health" data-path="/auth/pending-animals-health">Pending Animals Health</a>
+            <a class="nav-link" href="/auth/adoption-application" data-path="/auth/adoption-application">Pending Animal Application</a>
+            <!--            Not authorized to see it-->
             <a sec:authorize="!isAuthenticated()"  class="nav-link">
                 <a  class="nav-link" href="/login">Login</a>
                 <a  class="nav-link" href="/register">Register</a>

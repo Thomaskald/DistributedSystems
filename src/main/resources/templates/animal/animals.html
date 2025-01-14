@@ -26,7 +26,7 @@
             </thead>
             <tbody>
             <tr th:each="animal : ${animals}">
-                <div th:if="${animal.animalStatus == 'ENABLED'}">
+                <div th:if="${animal.animalStatus == 'ENABLED' && animal.animalHealthStatus == 'APPROVED' && animal.animalAdoptionStatus == 'NOT_ADOPTED'}">
                     <td th:text="${animal.name}"></td>
                     <td th:text="${animal.gender}"></td>
                     <td th:text="${animal.age}"></td>

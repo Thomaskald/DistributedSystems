@@ -37,8 +37,9 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((requests) -> requests
                                 .requestMatchers("/users", "/admin/shelters/approve/**", "/admin/shelters/reject/**" , "/auth/pending-shelters/" , "/admin/animals/approve/**" , "/auth/pending-animals").hasRole("ADMIN")
-                                .requestMatchers("/shelter/**" , "/animal/add-animal").hasRole("SHELTER")
+                                .requestMatchers("/shelter/**" , "/animal/add-animal" , "/shelter/animals/approve/{animal_id}" , "/auth/adoption-application" , "/shelter/animals/reject/{animal_id}").hasRole("SHELTER")
                                 .requestMatchers("/animal/animals/**").hasRole("ADOPTER")
+                                .requestMatchers("/vet/animals/approve/**" , "/auth/pending-animals-health").hasRole("VET")
                                 .requestMatchers("/", "/home","/register", "saveUser", "/saveVet" ,  "/saveShelter","/saveAnimal",  "/register/vet" , "/register/shelter" , "/register/shelter" , "/images/**", "/js/**", "/css/**").permitAll()
 
 //                        .requestMatchers("/admin/**").hasRole("ADMIN")

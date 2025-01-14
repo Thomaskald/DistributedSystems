@@ -18,14 +18,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class ShelterController {
+    private final AnimalService animalService;
+    private final AnimalRepository animalRepository;
     private UserService userService;
 
     private UserRepository userRepository;
     private RoleRepository roleRepository;
 
-    public ShelterController(UserService userService, RoleRepository roleRepository) {
+    public ShelterController(UserService userService, RoleRepository roleRepository, AnimalService animalService, AnimalRepository animalRepository) {
         this.userService = userService;
         this.roleRepository = roleRepository;
+        this.animalService = animalService;
+        this.animalRepository = animalRepository;
     }
 
     @GetMapping("register/shelter")
@@ -33,6 +37,12 @@ public class ShelterController {
         Shelter shelter = new Shelter();
         model.addAttribute("shelter", shelter);
         return "register/shelter";
+    }
+
+    @GetMapping("/auth/adoption-application")
+    public String adoptionApplication(Model model) {
+        model.addAttribute("animals", animalService.getNotAdoptedAnimals());
+        return "auth/adoption-application";
     }
 
     @PostMapping("/saveShelter")
@@ -60,6 +70,19 @@ public class ShelterController {
         return "auth/users";
     }
 
+    @GetMapping("/shelter/animals/approve/{animal_id}")
+    public String approveAdoptionApplication(@PathVariable int animal_id, Model model) {
+        Animal animal = (Animal) animalService.getAnimal(animal_id);
+        animal.setAnimalAdoptionStatus("ADOPTED");
+        animalService.updateAnimal(animal);
+        return "redirect:/auth/adoption-application";
+    }
 
+    @GetMapping("/shelter/animals/reject/{animal_id}")
+    public String rejectAdoptionApplication(@PathVariable int animal_id, Model model) {
+        Animal animal = (Animal) animalService.getAnimal(animal_id);
+        animalRepository.delete(animal);
+        return "index";
+    }
 
 }
