@@ -30,6 +30,9 @@ public class Animal {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "animal_status")
+    private String animalStatus;
+
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "shelter_id", referencedColumnName = "id")
@@ -43,7 +46,7 @@ public class Animal {
     private User adopter;
 
     public Animal() {}
-    public Animal(String name, String gender, String age, String species, String description, Shelter shelter, Adopter adopter) {
+    public Animal(String name, String gender, String age, String species, String description, Shelter shelter, Adopter adopter, String animalStatus) {
         this.name = name;
         this.gender = gender;
         this.age = age;
@@ -51,6 +54,7 @@ public class Animal {
         this.description = description;
         this.shelter = shelter;
         this.adopter = adopter;
+        this.animalStatus = animalStatus;
     }
 
 
@@ -113,6 +117,10 @@ public class Animal {
     public void setAdopter(User adopter) {
         this.adopter = adopter;
     }
+
+    public String getAnimalStatus() {return animalStatus;}
+
+    public void setAnimalStatus(String animalStatus) {this.animalStatus = animalStatus;}
 
     @Override
     public String toString() {

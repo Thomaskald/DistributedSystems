@@ -37,6 +37,8 @@ public class AnimalService {
         User user = userRepository.findUserByEmail(username);
         animal.setShelter(user);
 
+        animal.setAnimalStatus("PENDING");
+
         animal = animalRepository.save(animal);
         return animal.getId();
     }
@@ -59,5 +61,9 @@ public class AnimalService {
     @Transactional
     public Object getAnimals() {
         return animalRepository.findAll();
+    }
+
+    public Object getPendingAnimals(){
+        return animalRepository.findAnimalByAnimalStatus("PENDING");
     }
 }

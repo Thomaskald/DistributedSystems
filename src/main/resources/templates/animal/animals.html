@@ -26,14 +26,16 @@
             </thead>
             <tbody>
             <tr th:each="animal : ${animals}">
-                <td th:text="${animal.name}"></td>
-                <td th:text="${animal.gender}"></td>
-                <td th:text="${animal.age}"></td>
-                <td th:text="${animal.species}"></td>
-                <td th:text="${animal.description}"></td>
-                <td>
-                    <a th:href="@{/animal/adopt/{animal_id}(animal_id=${animal.id})}">Adopt application</a>
-                </td>
+                <div th:if="${animal.animalStatus == 'ENABLED'}">
+                    <td th:text="${animal.name}"></td>
+                    <td th:text="${animal.gender}"></td>
+                    <td th:text="${animal.age}"></td>
+                    <td th:text="${animal.species}"></td>
+                    <td th:text="${animal.description}"></td>
+                    <td>
+                        <a th:href="@{/animal/adopt/{animal_id}(animal_id=${animal.id})}">Adopt application</a>
+                    </td>
+                </div>
             </tr>
             </tbody>
         </table>
