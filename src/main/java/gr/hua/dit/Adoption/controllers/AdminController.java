@@ -65,5 +65,11 @@ public class AdminController {
         return "index";
     }
 
+    @GetMapping("/admin/animals/reject/{animal_id}")
+    public String rejectAnimal(@PathVariable int animal_id, Model model) {
+        Animal animal = (Animal) animalService.getAnimal(animal_id);
+        animalRepository.delete(animal);
+        return "index";
+    }
 
 }
