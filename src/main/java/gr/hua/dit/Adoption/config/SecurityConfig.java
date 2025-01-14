@@ -36,7 +36,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                                .requestMatchers("/users", "/admin/shelters/approve/**", "/auth/pending-shelters/" , "/admin/animals/approve/**" , "/auth/pending-animals").hasRole("ADMIN")
+                                .requestMatchers("/users", "/admin/shelters/approve/**", "/admin/shelters/reject/**" , "/auth/pending-shelters/" , "/admin/animals/approve/**" , "/auth/pending-animals").hasRole("ADMIN")
                                 .requestMatchers("/shelter/**" , "/animal/add-animal").hasRole("SHELTER")
                                 .requestMatchers("/animal/animals/**").hasRole("ADOPTER")
                                 .requestMatchers("/", "/home","/register", "saveUser", "/saveVet" ,  "/saveShelter","/saveAnimal",  "/register/vet" , "/register/shelter" , "/register/shelter" , "/images/**", "/js/**", "/css/**").permitAll()

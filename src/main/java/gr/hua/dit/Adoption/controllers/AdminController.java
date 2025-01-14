@@ -4,6 +4,7 @@ import gr.hua.dit.Adoption.Utils.LoggedInUserUtils;
 import gr.hua.dit.Adoption.entities.Animal;
 import gr.hua.dit.Adoption.entities.Shelter;
 import gr.hua.dit.Adoption.entities.User;
+import gr.hua.dit.Adoption.repositories.AnimalRepository;
 import gr.hua.dit.Adoption.repositories.UserRepository;
 import gr.hua.dit.Adoption.service.AnimalService;
 import gr.hua.dit.Adoption.service.UserService;
@@ -20,11 +21,13 @@ public class AdminController {
     private final UserRepository userRepository;
     private final UserService userService;
     private final AnimalService animalService;
+    private final AnimalRepository animalRepository;
 
-    public AdminController(UserRepository userRepository, UserService userService, AnimalService animalService) {
+    public AdminController(UserRepository userRepository, UserService userService, AnimalService animalService, AnimalRepository animalRepository) {
         this.userRepository = userRepository;
         this.userService = userService;
         this.animalService = animalService;
+        this.animalRepository = animalRepository;
     }
 
     @GetMapping("/auth/pending-shelters")
@@ -34,10 +37,17 @@ public class AdminController {
     }
 
     @GetMapping("/admin/shelters/approve/{shelter_id}")
-    public String approve(@PathVariable long shelter_id, Model model) {
+    public String approveShelter(@PathVariable long shelter_id, Model model) {
         User user = (User) userService.getUser(shelter_id);
         user.setStatus("ENABLED");
         userService.updateUser(user);
+        return "index";
+    }
+
+    @GetMapping("/admin/shelters/reject/{shelter_id}")
+    public String rejectShelter(@PathVariable long shelter_id, Model model) {
+        User user = (User) userService.getUser(shelter_id);
+        userRepository.delete(user);
         return "index";
     }
 
@@ -54,4 +64,6 @@ public class AdminController {
         animalService.updateAnimal(animal);
         return "index";
     }
+
+
 }
