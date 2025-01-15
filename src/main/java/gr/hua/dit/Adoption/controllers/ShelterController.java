@@ -81,7 +81,9 @@ public class ShelterController {
     @GetMapping("/shelter/animals/reject/{animal_id}")
     public String rejectAdoptionApplication(@PathVariable int animal_id, Model model) {
         Animal animal = (Animal) animalService.getAnimal(animal_id);
-        animalRepository.delete(animal);
+        animal.setAdopter(null);
+        animal.setAnimalAdoptionStatus("NOT_ADOPTED");
+        animalService.updateAnimal(animal);
         return "index";
     }
 
