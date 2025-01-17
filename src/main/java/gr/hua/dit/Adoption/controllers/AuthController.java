@@ -32,8 +32,7 @@ public class AuthController {
 
     @GetMapping("/login")
     public String login(User user) {
-//        User signedInUser = new User();
-//        signedInUser.setId(user.getId());
+
         return "auth/login";
     }
 }

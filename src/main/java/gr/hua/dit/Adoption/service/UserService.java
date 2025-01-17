@@ -45,38 +45,6 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public Integer saveVet(Vet vet) {
-        String passwd = vet.getPassword();
-        String encodedPasswd = passwordEncoder.encode(passwd);
-        vet.setPassword(encodedPasswd);
-
-        Role role = roleRepository.findByName("ROLE_VET")
-                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-        Set<Role> roles = new HashSet<>();
-        roles.add(role);
-        vet.setRoles(roles);
-
-        vet = userRepository.save(vet);
-        return vet.getId();
-    }
-
-    @Transactional
-    public Integer saveShelter(Shelter shelter) {
-        String passwd = shelter.getPassword();
-        String encodedPasswd = passwordEncoder.encode(passwd);
-        shelter.setPassword(encodedPasswd);
-
-        Role role = roleRepository.findByName("ROLE_SHELTER")
-                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-        Set<Role> roles = new HashSet<>();
-        roles.add(role);
-        shelter.setRoles(roles);
-
-        shelter = userRepository.save(shelter);
-        return shelter.getId();
-    }
-
-    @Transactional
     public Integer saveUser(User user) {
         String passwd= user.getPassword();
         String encodedPassword = passwordEncoder.encode(passwd);
@@ -101,18 +69,6 @@ public class UserService implements UserDetailsService {
 
         user = userRepository.save(user);
         return user.getId();
-    }
-
-    @Transactional
-    public Integer updateVet(Vet vet) {
-        vet = vetRepository.save(vet);
-        return vet.getId();
-    }
-
-    @Transactional
-    public Integer updateShelter(Shelter shelter) {
-        shelter = shelterRepository.save(shelter);
-        return shelter.getId();
     }
 
     @Transactional
