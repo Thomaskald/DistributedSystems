@@ -13,14 +13,28 @@
     <div class="inner">
         <nav class="nav nav-masthead justify-content-center">
             <a class="nav-link" href="/" data-path="/" >Home</a>
-            <a class="nav-link" href="/animal/animals" data-path="/animal/animals" >Pets</a>
-            <a class="nav-link" href="/users" data-path="/student">Adopter</a>
-            <a class="nav-link" href="/teacher" data-path="/teacher" >Vet</a>
-            <a class="nav-link" href="/animal/add-animal" data-path="/animal/add-animal">Shelter</a>
-            <a class="nav-link" href="/auth/pending-shelters" data-path="/auth/pending-shelters">Pending shelters</a>
-            <a class="nav-link" href="/auth/pending-animals" data-path="/auth/pending-animals">Pending Animals</a>
-            <a class="nav-link" href="/auth/pending-animals-health" data-path="/auth/pending-animals-health">Pending Animals Health</a>
-            <a class="nav-link" href="/auth/adoption-application" data-path="/auth/adoption-application">Pending Animal Application</a>
+
+<!--            Blank class to have space between classes-->
+            <a class="nav-link" href="/" data-path="/" > </a>
+
+            <a sec:authorize="hasAuthority('ROLE_ADOPTER')">
+                <a class="nav-link" href="/animal/animals" data-path="/animal/animals" >Pets</a>
+            </a>
+            <!--            Shelter -->
+            <a sec:authorize="hasAuthority('ROLE_SHELTER')">
+                <a class="nav-link" href="/animal/add-animal" data-path="/animal/add-animal">Add animal</a>
+                <a class="nav-link" href="/auth/adoption-application" data-path="/auth/adoption-application">Pending Animal Application</a>
+            </a>
+            <!--            Admin-->
+            <a sec:authorize="hasAuthority('ROLE_ADMIN')">
+                <a class="nav-link" href="/users" data-path="/auth/users">Users</a>
+                <a class="nav-link" href="/auth/pending-shelters" data-path="/auth/pending-shelters">Pending shelters</a>
+                <a class="nav-link" href="/auth/pending-animals" data-path="/auth/pending-animals">Pending Animals</a>
+            </a>
+            <!--            Vet-->
+            <a sec:authorize="hasAuthority('ROLE_VET')">
+                <a class="nav-link" href="/auth/pending-animals-health" data-path="/auth/pending-animals-health">Pending Animals Health</a>
+            </a>
             <!--            Not authorized to see it-->
             <a sec:authorize="!isAuthenticated()"  class="nav-link">
                 <a  class="nav-link" href="/login">Login</a>
