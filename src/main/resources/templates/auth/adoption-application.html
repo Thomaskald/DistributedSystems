@@ -18,7 +18,7 @@
                 <th>Name</th>
                 <th>Age</th>
                 <th>Species</th>
-                <th>Adopter phone number</th>
+                <th>Contact information</th>
             </tr>
             </thead>
             <tbody>
@@ -27,7 +27,14 @@
                     <td th:text="${animal.name}"></td>
                     <td th:text="${animal.age}"></td>
                     <td th:text="${animal.species}"></td>
-                    <td th:text="${animal.adopter.phoneNumber}"></td>
+                    <td>
+                        <div>
+                            <strong>Phone:</strong> <span th:text="${animal.adopter.phoneNumber}"></span>
+                        </div>
+                        <div>
+                            <strong>Email:</strong> <span th:text="${animal.adopter.email}"></span>
+                        </div>
+                    </td>
                     <td>
                         <!-- Approve button -->
                         <form th:action="@{/shelter/animals/approve/{animal_id}(animal_id=${animal.id})}">
