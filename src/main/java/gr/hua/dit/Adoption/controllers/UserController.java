@@ -4,6 +4,7 @@ import gr.hua.dit.Adoption.entities.Role;
 import gr.hua.dit.Adoption.entities.User;
 import gr.hua.dit.Adoption.entities.Vet;
 import gr.hua.dit.Adoption.repositories.RoleRepository;
+import gr.hua.dit.Adoption.service.EmailService;
 import gr.hua.dit.Adoption.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,13 +16,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class UserController {
 
+    private EmailService emailService;
+
     private UserService userService;
 
     private RoleRepository roleRepository;
 
-    public UserController(UserService userService, RoleRepository roleRepository) {
+    public UserController(UserService userService, RoleRepository roleRepository, EmailService emailService) {
         this.userService = userService;
         this.roleRepository = roleRepository;
+        this.emailService = emailService;
     }
 
 
@@ -36,6 +40,12 @@ public class UserController {
     public String saveUser(@ModelAttribute User user, Model model){
         System.out.println("Roles: "+user.getRoles());
         Integer id = userService.saveUser(user);
+
+        String to = user.getEmail();
+        String subject = "Welcome to our app!";
+        String  body = "Hello there " + user.getUsername() + "! Thank you for registering to our platform!";
+        emailService.sendEmail(to, subject, body);
+
         String message = "User '"+id+"' saved successfully !";
         model.addAttribute("msg", message);
         return "index";
