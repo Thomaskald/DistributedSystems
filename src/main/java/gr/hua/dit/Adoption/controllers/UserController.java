@@ -42,7 +42,7 @@ public class UserController {
         Integer id = userService.saveUser(user);
 
         String to = user.getEmail();
-        String subject = "Welcome to our app!";
+        String subject = "Adoption platform";
         String  body = "Hello there " + user.getUsername() + "! Thank you for registering to our platform!";
         emailService.sendEmail(to, subject, body);
 
