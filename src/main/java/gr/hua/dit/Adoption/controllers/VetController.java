@@ -7,6 +7,7 @@ import gr.hua.dit.Adoption.repositories.AnimalRepository;
 import gr.hua.dit.Adoption.repositories.RoleRepository;
 import gr.hua.dit.Adoption.repositories.UserRepository;
 import gr.hua.dit.Adoption.service.AnimalService;
+import gr.hua.dit.Adoption.service.EmailService;
 import gr.hua.dit.Adoption.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,12 +24,14 @@ public class VetController {
 
     private UserRepository userRepository;
     private RoleRepository roleRepository;
+    private EmailService emailService;
 
-    public VetController(UserService userService, RoleRepository roleRepository, AnimalService animalService, AnimalRepository animalRepository) {
+    public VetController(UserService userService, RoleRepository roleRepository, AnimalService animalService, AnimalRepository animalRepository, EmailService emailService) {
         this.userService = userService;
         this.roleRepository = roleRepository;
         this.animalService = animalService;
         this.animalRepository = animalRepository;
+        this.emailService = emailService;
     }
 
     @GetMapping("register/vet")
@@ -42,6 +45,12 @@ public class VetController {
     public String saveVet(@ModelAttribute Vet vet, Model model){
         System.out.println("Roles: "+vet.getRoles());
         Integer id = userService.saveUser(vet);
+
+        String to = vet.getEmail();
+        String subject = "Adoption platform";
+        String  body = "Hello there " + vet.getUsername() + "! Thank you for registering to our platform!";
+        emailService.sendEmail(to, subject, body);
+
         String message = "Vet '"+id+"' saved successfully !";
         model.addAttribute("msg", message);
         return "index";

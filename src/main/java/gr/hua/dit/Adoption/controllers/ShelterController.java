@@ -8,6 +8,7 @@ import gr.hua.dit.Adoption.repositories.AnimalRepository;
 import gr.hua.dit.Adoption.repositories.RoleRepository;
 import gr.hua.dit.Adoption.repositories.UserRepository;
 import gr.hua.dit.Adoption.service.AnimalService;
+import gr.hua.dit.Adoption.service.EmailService;
 import gr.hua.dit.Adoption.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,12 +25,14 @@ public class ShelterController {
 
     private UserRepository userRepository;
     private RoleRepository roleRepository;
+    private EmailService emailService;
 
-    public ShelterController(UserService userService, RoleRepository roleRepository, AnimalService animalService, AnimalRepository animalRepository) {
+    public ShelterController(UserService userService, RoleRepository roleRepository, AnimalService animalService, AnimalRepository animalRepository, EmailService emailService) {
         this.userService = userService;
         this.roleRepository = roleRepository;
         this.animalService = animalService;
         this.animalRepository = animalRepository;
+        this.emailService = emailService;
     }
 
     @GetMapping("register/shelter")
@@ -49,6 +52,12 @@ public class ShelterController {
     public String saveShelter(@ModelAttribute Shelter shelter, Model model){
         System.out.println("Roles: "+shelter.getRoles());
         Integer id = userService.saveUser(shelter);
+
+        String to = shelter.getEmail();
+        String subject = "Adoption platform";
+        String body = "Hello there " + shelter.getUsername() + "! Our admin has to accept your request first, and then you'll be ready to go!";
+        emailService.sendEmail(to, subject, body);
+
         String message = "Shelter '"+id+"' saved successfully !";
         model.addAttribute("msg", message);
         return "index";
