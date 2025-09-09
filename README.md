@@ -1,40 +1,49 @@
-Σύστημα Διαχείρισης Καταφυγίων
-Περιγραφή
-Αυτή η εφαρμογή αναπτύχθηκε για να βοηθήσει τα καταφύγια ζώων στη διαχείριση της διαδικασίας υιοθεσίας και να τα φέρει σε επικοινωνία με χρήστες που θέλουν να τα υιοθετήσουν. Περιλαμβάνει λειτουργίες για shelters, adopters, vets και admin.
+Kubernetes instructions:
 
-Βασικές Λειτουργίες
-Admin: Επίβλεψη συστήματος. Ελέγχει ζώα, καταφύγια.
-Shelter: Προσθήκη και διαχείριση ζώων, ελέχγει τις αιτήσεις των adopter.
-Adopter: Προβολή διαθέσιμων κατοικιδίων και δυνατότητα αίτησης για υιοθεσία τους.
-Vet: Ιατρικός έλεγχος κατοικιδίου πριν την εισαγωγή του στην πλατφόρμα και αποδοχή ή απόρριψη του βάσει της κατάστασης του.
+Create a vm and install microk8s on it:
 
-Τεχνολογίες
-Backend: Spring Boot (Java), Hibernate.
-Frontend: Thymeleaf, Bootstrap.
-Βάση Δεδομένων: PostgreSQL.
-Οδηγίες Εγκατάστασης
-Είτε clone: git clone https://github.com/Thomaskald/DistributedSystems.git -b 
-Ή κατέβασμα του .zip και μετά unzip
+	snap install microk8s --classic
+	
+	sudo ufw allow in on ethh0 && sudo ufw allow out on eth0
+	sudo ufw default allow routed
 
-Απαραίτητο λογισμικό:
-Java 
-Maven
-PostgreSQL
 
-Εκτέλεση:
-Clone Repository:
-git clone https://github.com/Thomaskald/DistributedSystems.git -b 
-Ή
-Download το zip
-Unzip
-Τρέξτε την εφαρμογή:
-Ανοίξτε το IDE και τρέξτε το AdoptionApplication
-Πρόσβαση: Ανοίξτε το localhost:8080 στον περιηγητή σας.
 
-Ρόλοι και Χρήστες
-Admin: Έχει πλήρη πρόσβαση στο σύστημα.
-Shelter: Μπορεί να διαχειρίζεται ζώα.
-Adopter: Υποβάλλει αιτήσεις υιοθέτησης.
-Vet: Ελέχγει τα κατοικίδια
+Access the microk8s without sudo:
 
-testjenkins2
+	sudo usermod -a -G microk8s $USER
+	exit
+	ssh <vm-name>
+
+Enable dns, ingress, storage:
+
+	microk8s enable dns ingress storage
+
+Open inbound port 16443 from your vm.
+
+Then:
+
+	microk8s.kubectl config view --raw > $HOME/.kube/config
+
+From your pc now:
+
+	scp <vm-name>:~/.kube/config ~/.kube/devops-microk8s
+	vim ~/.kube/devops-microk8s
+
+Change it from "server: https://127.0.0.1:16443" to "server: https://<server-public-ip>:16443"
+Delete "certificate-authority-data" and add "insecure-skip-tls-verify: true" in its place.
+
+Go to project folder of the application and:
+
+	export KUBECONFIG=~/.kube/devops-microk8s
+	k apply -f k8s/postgres/postgres-pvc.yaml
+	k apply -f k8s/postgres/postgres-deployment.yaml
+	k apply -f k8s/postgres/postgres-svc.yaml
+	
+	k apply -f k8s/spring/spring-deployment.yaml
+	k apply -f k8s/spring/spring-svc.yaml
+	
+	k get po
+	k port-forward <spring-deployment-name> 7000:8080
+
+	Open browser on localhost:7000
