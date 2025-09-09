@@ -30,7 +30,7 @@ From your pc now:
 	scp <vm-name>:~/.kube/config ~/.kube/devops-microk8s
 	vim ~/.kube/devops-microk8s
 
-Change it from "server: https://127.0.0.1:16443" to "server: https://<server-name-ip>:16443"
+Change it from "server: https://127.0.0.1:16443" to "server: https:// <server-public-ip> :16443"
 Delete "certificate-authority-data" and add "insecure-skip-tls-verify: true" in its place.
 
 Go to project folder of the application and:
