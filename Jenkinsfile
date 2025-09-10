@@ -1,6 +1,12 @@
 pipeline {
     agent any
     stages {
+        stage('Clean Workspace') {
+            steps {
+                deleteDir()
+            }
+        }
+
         stage('Checkout') {
             steps {
                 git branch: 'Code', url: 'https://github.com/Thomaskald/DistributedSystems.git'
