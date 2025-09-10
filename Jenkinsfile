@@ -28,7 +28,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 // Build the Docker image
-                sh 'docker build -f nonroot-multistage.Dockerfile -t distributed-app .'
+                sh 'sudo docker build -f nonroot-multistage.Dockerfile -t distributed-app .'
 
                 // Stop and remove previous container if it exists
                 sh 'docker stop distributed-app || true'
