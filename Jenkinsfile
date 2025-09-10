@@ -21,14 +21,17 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                sh '''
-                   # Stop any running instance
-                   pkill -f "java -jar" || true
+                // Build the Docker image
+                sh 'docker build -f nonroot-multistage.Dockerfile -t distributed-app .'
 
-                   # Run the new jar in background
-                   nohup java -jar target/*.jar > app.log 2>&1 &
-                '''
+                // Stop and remove previous container if it exists
+                sh 'docker stop distributed-app || true'
+                sh 'docker rm distributed-app || true'
+
+                // Run the container
+                sh 'docker run -d -p 8080:8080 --name distributed-app distributed-app'
             }
         }
+
     }
 }
