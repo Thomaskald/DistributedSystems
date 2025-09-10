@@ -10,18 +10,17 @@ import org.springframework.mail.javamail.JavaMailSender;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class EmailServiceTest {
+class EmailServiceTest {
 
     @MockBean
-    private JavaMailSender javaMailSender; // mock αντικείμενο, δεν χρειάζεται πραγματικός mail server
+    private JavaMailSender javaMailSender;
 
     @Autowired
-    private EmailService emailService; // η πραγματική service που θέλουμε να τεστάρουμε
+    private EmailService emailService;
 
     @Test
     void testSendEmail() {
-        emailService.sendEmail("to@example.com", "Test Subject", "Test Body");
-
+        emailService.sendEmail("test@example.com", "Subject", "Body");
         verify(javaMailSender, atLeastOnce()).send(any(SimpleMailMessage.class));
     }
 }
