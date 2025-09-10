@@ -7,7 +7,7 @@ RUN mvn clean package -DskipTests
 
 
 # 2. Create the runtime image
-FROM eclipse-termurin:21-alpine-3.21
+FROM openjdk:24-rc-oracle
 
 MAINTAINER thomas
 WORKDIR /app
