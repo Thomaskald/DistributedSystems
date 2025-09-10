@@ -35,7 +35,7 @@ pipeline {
                 sh 'docker rm distributed-app || true'
 
                 // Run the container
-                sh 'docker run -d -p 8080:8080 --name distributed-app distributed-app'
+                sh 'docker run -d -p 8081:8080 --name distributed-app distributed-app'
             }
         }
 
