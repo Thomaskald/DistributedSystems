@@ -7,8 +7,8 @@ services:
       - "5432:5432"
     environment:
       - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=jjV6YNt1HQmwfgYpnKImN2MBmvm28Qrd
-      - POSTGRES_DB=db_name_mude
+      - POSTGRES_PASSWORD=pMuwq41vsbjOXdtxqwkE3Asv9ID0Sqe9
+      - POSTGRES_DB=db_name_ew2u
     healthcheck:
       test:
         - CMD-SHELL
@@ -29,9 +29,9 @@ services:
       db:
         condition: service_healthy
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://dpg-d1sb0mmmcj7s73dgu3lg-a.oregon-postgres.render.com:5432/db_name_mude
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://dpg-d2vd6l75r7bs73cofibg-a.oregon-postgres.render.com:5432/db_name_ew2u
       - SPRING_DATASOURCE_USERNAME=user
-      - SPRING_DATASOURCE_PASSWORD=jjV6YNt1HQmwfgYpnKImN2MBmvm28Qrd
+      - SPRING_DATASOURCE_PASSWORD=pMuwq41vsbjOXdtxqwkE3Asv9ID0Sqe9
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
       interval: 30s
