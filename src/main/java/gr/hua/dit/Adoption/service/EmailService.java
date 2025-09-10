@@ -8,8 +8,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
-@SpringBootTest
-@MockBean(EmailService.class)
 public class EmailService {
 
     private final JavaMailSender mailSender;
