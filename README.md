@@ -42,8 +42,36 @@ Go to project folder of the application and:
 	
 	k apply -f k8s/spring/spring-deployment.yaml
 	k apply -f k8s/spring/spring-svc.yaml
-	
+ 
 	k get po
 	k port-forward <spring-deployment-name> 7000:8080
 
 	Open browser on localhost:7000
+
+Jenkins instructions:
+	
+ Create the vm:
+  
+ 	docker run -d   --name jenkins   -p 8080:8080 -p 50000:50000   -v jenkins_home:/var/jenkins_home   -v /var/run/docker.sock:/var/run/docker.sock   jenkins/jenkins:lts
+ 
+ Connect to the vm:
+ 	
+  	docker exec -u root -it jenkins bash
+
+ Install docker.io:
+ 
+   	apt-get update
+	apt-get install -y docker.io
+	exit
+ 
+ Restart jenkins:
+ 	
+  	docker restart jenkins
+
+ Get the permissions necessary:
+ 
+	sudo groupadd docker
+	sudo usermod -aG docker jenkins 
+	sudo chmod 666 /var/run/docker.sock
+ 
+ Now you open locahost:8080 on your pc and from there u create a pipeline that executes Jenkinsfile. Hit localhost:8081 on your browser and the project is running.
