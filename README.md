@@ -36,17 +36,20 @@ Delete "certificate-authority-data" and add "insecure-skip-tls-verify: true" in 
 Go to project folder of the application and:
 
 	export KUBECONFIG=~/.kube/devops-microk8s
-	k apply -f k8s/postgres/postgres-pvc.yaml
-	k apply -f k8s/postgres/postgres-deployment.yaml
-	k apply -f k8s/postgres/postgres-svc.yaml
+	kubectl apply -f k8s/postgres/postgres-pvc.yaml
+	kubectl apply -f k8s/postgres/postgres-deployment.yaml
+	kubectl apply -f k8s/postgres/postgres-svc.yaml
 	
-	k apply -f k8s/spring/spring-deployment.yaml
-	k apply -f k8s/spring/spring-svc.yaml
- 
-	k get po
-	k port-forward <spring-deployment-name> 7000:8080
+	kubectl apply -f k8s/spring/spring-deployment.yaml
+    kubectl apply -f k8s/spring/spring-ingress-ssl.yaml
+	kubectl apply -f k8s/spring/spring-svc.yaml
+    
+    kubectl apply -f k8s/cluster/cluster-issuer.yaml
 
-	Open browser on localhost:7000
+
+Add helm and cert related dependencies, open ports 80,443 and a public https site is created. In my case my app is open on:
+    
+	https://spring.fotis.cloudns.pro/
 
 Jenkins instructions:
 	
