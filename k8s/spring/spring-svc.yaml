@@ -5,11 +5,11 @@ metadata:
     app: spring
   name: spring
 spec:
-  ports:
-    - port: 8080
-      protocol: TCP
-      targetPort: 8080
-      name: spring
+  type: NodePort
   selector:
     app: spring
-  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+      name: spring
